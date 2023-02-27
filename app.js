@@ -9,8 +9,8 @@ const multer = require("multer");
 const upload = multer({storage : multer.memoryStorage()})
 app.post("/banner",upload.single("image") ,createBanner);
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 app.listen(port, () => {
-  console.log("Server running at http://localhost:8000");
+  console.log(`Server running at http://localhost:${port}`);
 });
