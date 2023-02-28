@@ -6,7 +6,9 @@ const createBanner = async (req, res) => {
   const height = parseInt(req.query.height) || 400;
   const blurImage = parseInt(req.query.blurImage) || 0.3
 
-  
+  if(!req.file.buffer) {
+    res.status(500).send({ message: "Please provide an image" });
+  }
   // Read the background image file and resize it to the desired dimensions
   const backgroundImage = await sharp(req.file.buffer)
     .resize(width, height).blur(blurImage)
