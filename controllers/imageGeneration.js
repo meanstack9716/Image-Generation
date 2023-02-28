@@ -4,7 +4,7 @@ const createBanner = async (req, res) => {
   console.log("Hello world");
   const width = parseInt(req.query.width) || 800;
   const height = parseInt(req.query.height) || 400;
-  const blurImage = parseInt(req.query.blurImage)
+  const blurImage = parseInt(req.query.blurImage) || 0.3
 
   
   // Read the background image file and resize it to the desired dimensions
