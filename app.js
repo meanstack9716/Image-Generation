@@ -4,8 +4,10 @@ const sharp = require("sharp");
 const dotenv = require("dotenv");
 dotenv.config();
 
+sharp.cache({ memory: 200 });
 const { createBanner } = require("./controllers/imageGeneration");
 const multer = require("multer");
+
 const upload = multer({storage : multer.memoryStorage()})
 app.post("/banner",upload.single("image") ,createBanner);
 

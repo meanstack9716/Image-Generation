@@ -4,10 +4,12 @@ const createBanner = async (req, res) => {
   console.log("Hello world");
   const width = parseInt(req.query.width) || 800;
   const height = parseInt(req.query.height) || 400;
+  const blurImage = parseInt(req.query.blurImage)
 
+  
   // Read the background image file and resize it to the desired dimensions
   const backgroundImage = await sharp(req.file.buffer)
-    .resize(width, height)
+    .resize(width, height).blur(blurImage)
     .toBuffer();
 
   const imageBuffer = await sharp({
@@ -17,9 +19,7 @@ const createBanner = async (req, res) => {
       channels: 4,
       background: { r: 255, g: 0, b: 0, alpha: 0 },
     },
-  })
-    .flatten({ r: 255, g: 0, b: 0, alpha: 0.3 })
-    .toBuffer();
+  }).toBuffer();
 
   try {
     const data = await sharp(imageBuffer, {
