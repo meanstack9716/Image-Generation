@@ -1,6 +1,7 @@
 const sharp = require("sharp");
 
 const createBanner = async (req, res) => {
+  console.log("Hello world");
   const width = parseInt(req.query.width) || 800;
   const height = parseInt(req.query.height) || 400;
 
@@ -14,9 +15,11 @@ const createBanner = async (req, res) => {
       width: width,
       height: height,
       channels: 4,
-      background: { r: 255, g: 255, b: 255, alpha: 1 },
+      background: { r: 255, g: 0, b: 0, alpha: 0 },
     },
-  }).toBuffer();
+  })
+    .flatten({ r: 255, g: 0, b: 0, alpha: 0.3 })
+    .toBuffer();
 
   try {
     const data = await sharp(imageBuffer, {
@@ -24,26 +27,19 @@ const createBanner = async (req, res) => {
         width: width,
         height: height,
         channels: 4,
-        background: {
-          r: 255,
-          g: 255,
-          b: 255,
-          alpha: 1
-        },
       },
     })
-      .resize(width, height)
       .composite([
+        {
+          input: backgroundImage,
+          gravity: "center",
+        },
         {
           input: Buffer.from(
             `<svg><text x="50%" y="90%" dominant-baseline="middle" text-anchor="middle" font-size="48" font-family="Helvetica">${
               req.query.text || "Hi, How are you?"
             }</text></svg>`
           ),
-          gravity: "center",
-        },
-        {
-          input: backgroundImage,
           gravity: "center",
         },
       ])
